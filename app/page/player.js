@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
-import Progress from '../progress'
+import Progress from '../components/progress'
 import './player.less'
+import { Link } from 'react-router'
+import Pubsub from 'pubsub-js'
 
 let duration = null
 
@@ -11,7 +13,16 @@ class Player extends Component {
       progress: 0,
       volume: 0,
       isPlay: true,
+      leftTime: ''
     }
+  }
+
+  playPrev() {
+    Pubsub.publish('PLAY_PREV')
+  }
+
+  playNext() {
+    Pubsub.publish('PLAY_NEXT')
   }
 
   componentDidMount() {
@@ -53,7 +64,9 @@ class Player extends Component {
   render() {
     return (
       <div className="player-page">  
-        <h1 className="caption">我的私人音乐 &gt;</h1>
+        <h1 className="caption">
+          <Link to="/list">我的私人音乐 &gt;</Link>
+        </h1>
         <div className="mt20 row">
           <div className="controll-wrapper">
             <h2 className="music-title">{this.props.currentMusicItem.title}</h2>
@@ -77,9 +90,9 @@ class Player extends Component {
             </div>
             <div className="mt35 row">
               <div>
-                <i className="icon prev"></i>
+                <i className="icon prev" onClick={this.playPrev}></i>
                 <i className={`icon ml20 ${this.state.isPlay ? 'pause' : 'play'} `} onClick={this.play.bind(this)}></i>
-                <i className="icon ml20 next"></i>
+                <i className="icon ml20 next" onClick={this.playNext}></i>
               </div>
               <div className="-col-auto">
                 <i className="icon repeat-cycle" ></i>
