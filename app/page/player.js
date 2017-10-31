@@ -44,7 +44,7 @@ class Player extends Component {
     })
   }
 
-  componentWillUnMount() {
+  componentWillUnmount() {
     $('#player').unbind($.jPlayer.event.timeupdate)
   }
 
