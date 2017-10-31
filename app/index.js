@@ -3,8 +3,6 @@ import ReactDOM from 'react-dom'
 import { AppContainer } from 'react-hot-loader'
 import Root from './root'
 
-import './index.less'
-
 ReactDOM.render(
   <AppContainer>
     <Root/>

@@ -26,7 +26,7 @@ class App extends Component {
   }
 
   playNext(type = 'next') {
-    let index = this.findMusicIndex(this.currentMusicItem)
+    let index = this.findMusicIndex(this.state.currentMusicItem)
     let newIndex = null
     let musicListLength = this.state.musicList.length
     if(type === 'next') {
@@ -37,7 +37,7 @@ class App extends Component {
     this.playMusic(this.state.musicList[newIndex])
   }
 
-  functionMusicIndex(musicItem) {
+  findMusicIndex(musicItem) {
     return this.state.musicList.indexOf(musicItem)
   }
 
@@ -50,7 +50,7 @@ class App extends Component {
     $('#player').bind($.jPlayer.event.ended, (e) => {
       this.playNext()
     })
-    Pubsub.subscribe('DELTE_MUSIC', (msg, musicItem) => {
+    Pubsub.subscribe('DELETE_MUSIC', (msg, musicItem) => {
       this.setState({
         musicList: this.state.musicList.filter(item => {
           return item !== musicItem
@@ -62,14 +62,14 @@ class App extends Component {
       this.playMusic(musicItem)
     })
     Pubsub.subscribe('PLAY_PREV', (msg, musicItem) => {
-      this.playMusic('pre')
+      this.playNext('pre')
     })
     Pubsub.subscribe('PLAY_NEXT', (msg, musicItem) => {
-      this.playMusic()
+      this.playNext()
     })
   }
 
-  componentWillUnMount() {
+  componentWillUnmount() {
     Pubsub.unsubscribe('DELETE_MUSIC')
     Pubsub.unsubscribe('PLAY_MUSIC')
     Pubsub.unsubscribe('PLAY_PREV')
